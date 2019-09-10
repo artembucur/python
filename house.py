@@ -1,6 +1,11 @@
 from turtle import *
 t = Turtle()
 
+t.right(90)
+t.up()
+t.fd(200)
+t.left(90)
+t.down()
 for i in range (4):
     t.left(90)
     t.fd(200)
@@ -51,5 +56,70 @@ t.left(90)
 t.fd(30)
 t.right(90)
 t.up()
+t.fd(15)
+t.right(90)
+t.fd(15)
+t.right(90)
+t.down()
+t.fd(30)
+t.up()
+t.fd(100)
+t.left(90)
+t.up()
+t.fd(50)
+t.right(90)
+t.down()
+t.fd(50)
+t.left(90)
+t.up()
+t.fd(25)
+t.left(90)
+t.fd(25)
+t.down()
+t.left(90)
+t.fd(50)
+t.up()
+t.fd(50)
+t.down()
+t.fd(50)
+t.up()
+t.right(90)
+t.fd(25)
+t.right(90)
+t.fd(25)
+t.right(90)
+t.down()
+t.fd(50)
+t.left(90)
+t.up()
+t.fd(150)
+t.left(90)
+t.fd(125)
+t.right(45)
+for i in range(3):
+    t.fd(14)
+    t.left(90)
+    t.down()
+    t.fd(142)
+    t.right(90)
+    t.up()
+    t.fd(14)
+    t.right(90)
+    t.down()
+    t.fd(142)
+    t.left(90)
+
+
+
+
+
+
+
+
+
+
+
+
+
 t.screen.exitonclick()
 t.screen.mainloop()
