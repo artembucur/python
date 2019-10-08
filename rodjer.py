@@ -18,6 +18,8 @@ if ready == 'да':
 
     examples_quantity = '' # количество примеров
     max_answer = '' # до скольки будем считать
+    correct_answers = 0  # правильные ответы
+    fails = 0 # ошибки
 
     while not examples_quantity.isdigit():
         print(name + ', сколько примеров ты готов решить?')
@@ -54,16 +56,31 @@ if ready == 'да':
         if sign == '-':
             while number1 < number2:
                 number1 = randint(1, int(max_answer))
+            correct_answer = number1 - number2
 
         if sign == '+':
-            while number1 + number2 > 100:
+            while number1 + number2 > int(max_answer):
                 number1 = randint(1, int(max_answer))
                 number2 = randint(1, int(max_answer))
+            correct_answer = number1 + number2
 
 
         print(str(number1)+sign+str(number2))
+        answer = int(input())
 
+        if answer == correct_answer:
+            correct_answers += 1
+            print('Правильно, молодец!')
+        else:
+            fails += 1
+            print('Неправильно')
+            print('правильный ответ: ' + str(correct_answer))
 
+    if fails == 0:
+        print('Молодец!, {} Ты правильно ответил на все вопросы за '.format(name))
+    else:
+        print('Правильных ответов: {}'.format(correct_answers))
+        print('Ошибок: {}'.format(fails))
 
 
 elif ready == 'нет':
