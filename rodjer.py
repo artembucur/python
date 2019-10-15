@@ -1,4 +1,6 @@
+# Программа для автоматизации навыков счёта
 from random import randint, choice
+from timeit import default_timer
 
 print('Привет, меня зовут Роджер. А как тебя?')
 name = input() # имя
@@ -16,11 +18,14 @@ while ready not in {'да', 'нет'}:
 
 if ready == 'да':
 
+    # проинициализируем перменные
     examples_quantity = '' # количество примеров
     max_answer = '' # до скольки будем считать
     correct_answers = 0  # правильные ответы
     fails = 0 # ошибки
+    answers_time = 0  # затраченое время
 
+    # зададим основные условия выполнения программы и проверим их
     while not examples_quantity.isdigit():
         print(name + ', сколько примеров ты готов решить?')
         examples_quantity = input()
@@ -47,27 +52,45 @@ if ready == 'да':
 
     for example in range(int(examples_quantity)):
 
-        number1 = randint(1, int(max_answer))
-        number2 = randint(1, int(max_answer))
-        sign = choice('+-')
+        # случайным образом сгенерируем
+        number1 = randint(1, int(max_answer))  # левый операнд
+        number2 = randint(1, int(max_answer))  # правый операнд
+        sign = choice('+-')  # арифметический оператор
 
         print('пример ' + str(example+1))
 
         if sign == '-':
+            # исключим отрицательный ответ
             while number1 < number2:
                 number1 = randint(1, int(max_answer))
             correct_answer = number1 - number2
 
+        # вычислим результат в зависимости от операции
         if sign == '+':
+            # исключим превышения максимального допустимого ответа
             while number1 + number2 > int(max_answer):
                 number1 = randint(1, int(max_answer))
                 number2 = randint(1, int(max_answer))
             correct_answer = number1 + number2
 
+        # выведем текст примера и проверим введена ли цыфра
+        answer = ''  # ответ
 
-        print(str(number1)+sign+str(number2))
-        answer = int(input())
+        while not answer.isdigit():
+            print('сколько будет ' + str(number1) + sign + str(number2) + '?')
+            start = default_timer  # начинаем отсчёт времени
+            answer = input()
+            stop = default_timer  # закончим отсчёт
 
+            if not answer.isdigit():
+                print('Ты ошибся, должна быть цифра.')
+
+            # добавим затраченное время на один ответ в секундах
+            answers_time +=round(stop-start)
+
+        answer = int(answer)
+
+        # проверим и подсчитаем количество правильных/неправильных ответов
         if answer == correct_answer:
             correct_answers += 1
             print('Правильно, молодец!')
