@@ -36,6 +36,8 @@ if ready == 'да':
                 while not examples_quantity.isdigit():
                     print('Ты ошибся, должна быть цифра.')
                     examples_quantity = input()
+        else:
+            print('Ты ошибся, должна быть цифра.')
 
     while not max_answer.isdigit():
         print('До скольки будем считать? Например, до 100')
@@ -47,6 +49,8 @@ if ready == 'да':
                 while not max_answer.isdigit():
                     print('Ты ошибся, должна быть цифра.')
                     max_answer = input()
+        else:
+            print('Ты ошибся, должна быть цифра.')
 
     print('Хорошо, тогда начинаем...')
 
@@ -78,9 +82,10 @@ if ready == 'да':
 
         while not answer.isdigit():
             print('сколько будет ' + str(number1) + sign + str(number2) + '?')
-            start = default_timer  # начинаем отсчёт времени
+            start = default_timer()  # начинаем отсчёт времени
             answer = input()
-            stop = default_timer  # закончим отсчёт
+            stop = default_timer()  # закончим отсчёт
+
 
             if not answer.isdigit():
                 print('Ты ошибся, должна быть цифра.')
@@ -99,11 +104,22 @@ if ready == 'да':
             print('Неправильно')
             print('правильный ответ: ' + str(correct_answer))
 
+    if answers_time < 60:
+        time_spent = f'{answers_time} секунд'
+    else:
+        minutes = answers_time // 60
+        seconds = answers_time - 60 * minutes
+        if seconds == 0:
+            time_spent = f'{minutes} минут'
+        else:
+            time_spent = f'{minutes} минут и {seconds} секунд'
+
     if fails == 0:
-        print('Молодец!, {} Ты правильно ответил на все вопросы за '.format(name))
+        print(f'Молодец!, {name} Ты правильно ответил на все вопросы за {time_spent}')
     else:
         print('Правильных ответов: {}'.format(correct_answers))
         print('Ошибок: {}'.format(fails))
+        print(f'Ты ответил на все вопросы за {time_spent}')
 
 
 elif ready == 'нет':
