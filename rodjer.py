@@ -2,6 +2,7 @@
 from random import randint, choice
 from timeit import default_timer
 
+
 print('Привет, меня зовут Роджер. А как тебя?')
 name = input() # имя
 name = name.title()
