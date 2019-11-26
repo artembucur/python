@@ -1,25 +1,13 @@
 # Программа для автоматизации навыков счёта
 from random import randint, choice
 from timeit import default_timer
+import lib
 
 
-print('Привет, меня зовут Роджер. А как тебя?')
-name = input() # имя
-name = name.title()
-print('Приятно познакомиться, ' + name)
-print('Давай проверим твои знания в математике')
+def count():
+    print('Давай проверим твои знания в математике')
 
-print('Ты готов? \'да\' или \'нет\'')
-ready = input()
-
-while ready not in {'да', 'нет'}:
-    print('Ты ошибся, должно быть \'да\' или \'нет\'')
-    print('Введи заново')
-    ready = input()
-
-if ready == 'да':
-
-    # проинициализируем перменные
+    # проинициализируем переменные
     examples_quantity = '' # количество примеров
     max_answer = '' # до скольки будем считать
     correct_answers = 0  # правильные ответы
@@ -105,24 +93,30 @@ if ready == 'да':
             print('Неправильно')
             print('правильный ответ: ' + str(correct_answer))
 
-    if answers_time < 60:
-        time_spent = f'{answers_time} секунд'
-    else:
-        minutes = answers_time // 60
-        seconds = answers_time - 60 * minutes
-        if seconds == 0:
-            time_spent = f'{minutes} минут'
-        else:
-            time_spent = f'{minutes} минут и {seconds} секунд'
-
     if fails == 0:
-        print(f'Молодец!, {name} Ты правильно ответил на все вопросы за {time_spent}')
+        print(f'Молодец!, {name} Ты правильно ответил на все вопросы за {lib.convert_seconds(answers_time)}')
     else:
         print('Правильных ответов: {}'.format(correct_answers))
         print('Ошибок: {}'.format(fails))
-        print(f'Ты ответил на все вопросы за {time_spent}')
+        print(f'Ты ответил на все вопросы за {lib.convert_seconds(answers_time)}')
 
 
-elif ready == 'нет':
-    print('Передумал? Хорошо, может как-нибудь в следующий раз...')
-    print('Пока!')
+# основной блок программы
+
+print('Привет, меня зовут Роджер. А как тебя?')
+name = input() # имя
+name = name.title()
+print('Приятно познакомиться, ' + name)
+
+file_name = f'{name}_errors.txt'
+print(file_name)
+
+while True:
+    mode = lib.select_mode()
+    if mode == '1':
+        count()
+    elif mode == '0':
+        print('До скорых втсреч')
+        break
+    else:
+        pass
