@@ -47,61 +47,72 @@ def count():
 
     col_uniques_examples = int(max_answer)**2
 
-    for i in range(int(examples_quantity)):
+    while not len(uniques_examples) == col_uniques_examples:
 
-        # случайным образом сгенерируем
-        number1 = randint(1, int(max_answer))  # левый операнд
-        number2 = randint(1, int(max_answer))  # правый операнд
-        sign = choice('+-')  # арифметический оператор
+        # если номер примера не больше количества 
+        if not example_number > int(examples_quantity):
 
-        if sign == '-':
-            # исключим отрицательный ответ
-            while number1 < number2:
-                number1 = randint(1, int(max_answer))
-            correct_answer = number1 - number2
+            for i in range(int(examples_quantity)):
 
-        # вычислим результат в зависимости от операции
-        if sign == '+':
-            # исключим превышения максимального допустимого ответа
-            while number1 + number2 > int(max_answer):
-                number1 = randint(1, int(max_answer))
-                number2 = randint(1, int(max_answer))
-            correct_answer = number1 + number2
+                # случайным образом сгенерируем
+                number1 = randint(1, int(max_answer))  # левый операнд
+                number2 = randint(1, int(max_answer))  # правый операнд
+                sign = choice('+-')  # арифметический оператор
 
-        # выведем текст примера и проверим введена ли цыфра
-        answer = ''  # ответ
+                if sign == '-':
+                    # исключим отрицательный ответ
+                    while number1 < number2:
+                        number1 = randint(1, int(max_answer))
+                    correct_answer = number1 - number2
 
-        while not answer.isdigit():
+                # вычислим результат в зависимости от операции
+                if sign == '+':
+                    # исключим превышения максимального допустимого ответа
+                    while number1 + number2 > int(max_answer):
+                        number1 = randint(1, int(max_answer))
+                        number2 = randint(1, int(max_answer))
+                    correct_answer = number1 + number2
 
-            example = f'{number1} {sign} {number2}'
+                # выведем текст примера и проверим введена ли цыфра
+                answer = ''  # ответ
 
-            if example not in uniques_examples:
-                example_number +=1
-                uniques_examples.append(example)
+                while not answer.isdigit():
+                    
+                    example = f'{number1} {sign} {number2}'
 
-                print(f'пример {unique_questions_number}')
-                print(f'сколько будет {question}?')
-                start = default_timer()  # начинаем отсчёт времени
-                answer = input()
-                stop = default_timer()  # закончим отсчёт
+                    if example not in uniques_examples:
+                        example_number +=1
+
+                        # если номер примера больше количества
+                        if example_number > int(examples_quantity):
+                            break
+
+                        uniques_examples.append(example)
 
 
-                if not answer.isdigit():
-                    print('Ты ошибся, должна быть цифра.')
+                        print(f'пример {example_number}')
+                        print(f'сколько будет {example }?')
+                        start = default_timer()  # начинаем отсчёт времени
+                        answer = input()
+                        stop = default_timer()  # закончим отсчёт
 
-                # добавим затраченное время на один ответ в секундах
-                answers_time +=round(stop-start)
 
-        #answer = int(answer)
+                        if not answer.isdigit():
+                            print('Ты ошибся, должна быть цифра.')
 
-        # проверим и подсчитаем количество правильных/неправильных ответов
-        if answer == correct_answer:
-            correct_answers += 1
-            print('Правильно, молодец!')
-        else:
-            fails += 1
-            print('Неправильно')
-            print('правильный ответ: ' + str(correct_answer))
+                        # добавим затраченное время на один ответ в секундах
+                        answers_time +=round(stop-start)
+
+                answer = int(answer)
+
+                # проверим и подсчитаем количество правильных/неправильных ответов
+                if answer == correct_answer:
+                    correct_answers += 1
+                    print('Правильно, молодец!')
+                else:
+                    fails += 1
+                    print('Неправильно')
+                    print('правильный ответ: ' + str(correct_answer))
 
     if fails == 0:
         print(f'Молодец!, {name} Ты правильно ответил на все вопросы за {lib.convert_seconds(answers_time)}')
