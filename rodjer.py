@@ -47,6 +47,7 @@ def count():
 
     col_uniques_examples = int(max_answer)**2
 
+
     while not len(uniques_examples) == col_uniques_examples:
 
         # если номер примера не больше количества 
@@ -75,12 +76,13 @@ def count():
 
                 # выведем текст примера и проверим введена ли цыфра
                 answer = ''  # ответ
-
+                example = f'{number1} {sign} {number2}'
+                
                 while not answer.isdigit():
                     
-                    example = f'{number1} {sign} {number2}'
+                    
 
-                    if example not in uniques_examples:
+                    while example not in uniques_examples:
                         example_number +=1
 
                         # если номер примера больше количества
@@ -113,7 +115,12 @@ def count():
                     fails += 1
                     print('Неправильно')
                     print('правильный ответ: ' + str(correct_answer))
-
+        else:
+            break
+    else:
+        print()
+        if not example_number > int(examples_quantity):
+            print('Уникальных примеров больше нет')
     if fails == 0:
         print(f'Молодец!, {name} Ты правильно ответил на все вопросы за {lib.convert_seconds(answers_time)}')
     else:
