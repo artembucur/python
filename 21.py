@@ -1,35 +1,50 @@
 from random import shuffle, choice
 from time import sleep
  
-cards = ["Валет","Дама","Король","Туз"]
-masti = ["черви",'бубны','крестьи','пики']
 
-koloda = []
-for mast in masti:
+def get_deck():
+    deck = []
+    for suit in ("черви",'бубны','крестьи','пики'):
+        for card in range(2,11):
+            deck.append(f"{card} {suit}")
+        for card in ("валет","дама","король","туз"):
+            deck.append(f"{card} {suit}")
+    
+    shuffle(deck)
+    return deck
+
+
+def get_card_points(card, dealer=False):
+    received_card = card.split()
+    card_points = {}
+
     for card in range(2,11):
-        koloda.append(f"{card} {mast}")
-    for card in cards:
-        koloda.append(f"{card} {mast}")
+        card_points[f'{card}'] = card
+    for card in ("валет","дама","король"):
+        card_points[f'{card}'] = 10
+    if received_card[0] == "туз":
+        if dealer:
+            points = choice([1, 11])
+        else:
+            points = int(input('туз 1 или 11?\n'))
+    else:
+        points = card_points[received_card[0]]
+    
+    return points
 
-shuffle(cards)
 
 your_points = 0
 bot_points = 0
 moves = 1
 
-
-def receive_card_points(card):
-    received_card = card.split()
-    first = {"Валет":"J","Дама":"Q","Король":"K","Туз":"T"}
-
-    cards_points = {"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,first["Валет"]:10,first["Дама"]:10,first["Король"]:10,first["Туз"]:choice([1,11])}
-    print(cards_points)
-    return cards_points[card[0]]
+deck = get_deck()
 
 
-def move(points):
-    card = koloda.pop()
-    card_point = receive_card_points(card)
+
+def move(points, dealer=False):
+    card = deck.pop()
+    if dealer:
+        card_point = get_card_points(card, dealer=True)
     points += card_point
 
     print(f'''
