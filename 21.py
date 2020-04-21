@@ -23,7 +23,7 @@ def get_card_points(card, dealer=False):
     for card in ("валет","дама","король"):
         card_points[f'{card}'] = 10
     if received_card[0] == "туз":
-        if dealer:
+        if dealer == True:
             points = choice([1, 11])
         else:
             points = int(input('туз 1 или 11?\n'))
@@ -33,69 +33,80 @@ def get_card_points(card, dealer=False):
     return points
 
 
-your_points = 0
-bot_points = 0
-moves = 1
+def go(points, dealer=False):
 
-deck = get_deck()
+    try:
+        card = deck.pop()
+    except:
+        print("В колоде закончились карты")
+        sleep(4)
+        exit()
 
-
-
-def move(points, dealer=False):
-    card = deck.pop()
     if dealer:
         card_point = get_card_points(card, dealer=True)
+    else:
+        card_point = get_card_points(card)
+    
     points += card_point
 
     print(f'''
-    Очки: {points}
     Вам выпало: {card}
+    Очки: {points}
     ''') 
     return points
 
 
-def check_points(bot_points, user_points):
-    
-    if bot_points > 21:
-        print("Вы выиграли")
-        return False
-    elif bot_points == user_points:
-        print("Ничья")
-        return False
-    else:
-        return True
+deck = get_deck()
 
 play_again = "да"
-while play_again == "да":
-    
-    if moves == 1:
-        for _ in range(2):
+while play_again == 'да':
+
+    your_points = 0
+    bot_points = 0
+    more = 'да'
+    move = 1
+
+    while more == "да":
+        
+        if move == 1:
+            print("Ход бота:")
+            bot_points = go(bot_points, True)
+
+            for _ in range(2):
+                print("Ваш ход:")
+                your_points = go(your_points)
+                sleep(2)
+        else:
             print("Ваш ход:")
-            your_points = move(your_points)
+            your_points = go(your_points)
             sleep(2)
+        
+        if your_points > 21:
+            print("Вы проиграли")
+            break
+        elif your_points == 21:
+            print("Black Jack!!!")
+            more = "нет"
+        else:
+            more = input("Вытянуть карту ещё? да или нет\n")    
+        move += 1
     else:
-        print("Ваш ход:")
-        your_points = move(your_points)
-        sleep(2)
+            
+        while bot_points < 18:
+            print("Ход бота:")
+            bot_points = go(bot_points, True)
+
+        if bot_points > 21:
+            print("Вы выиграли")
+
+        elif bot_points == your_points:
+            print("Ничья")
+        elif your_points < bot_points:
+            print("Вы проиграли")
     
-    if your_points > 21:
-        print("Вы проиграли")
-        break
-    elif your_points == 21:
-        print("Black Jack!!!")
-        play_again = "нет"
-    else:
-        play_again = input("Вытянуть карту ещё? да или нет\n")    
-else:
-        go = True
-        while go:
-            if bot_points < 18:
-                print("Ход бота:")
-                bot_points = move(bot_points)
-                go = check_points(bot_points, your_points)
-            else:
-                check_points(bot_points, your_points)
-                go = False
+    
+
+    play_again = input("Играем ещё?\n")
 
             
 
